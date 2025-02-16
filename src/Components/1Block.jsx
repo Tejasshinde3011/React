@@ -2,7 +2,7 @@ import { useState } from "react";
 import NavBar from "./1NavBar";
 import ProductPage from "./1ProductPage";
 import Cart from "./1AddCart";
-// import { useEffect } from "react";
+import { useEffect } from "react";
 
 function Block(){
   let[view, setView] = useState("product");
@@ -204,13 +204,18 @@ function Block(){
 let[productList,setproductList] = useState(pList);
 let[cartItems, setCartItems] = useState([]);
 
+useEffect(() => {
+  console.log("Current view:", view);
+}, [view]);
+
   function handleHomeButtonClick(view) {
     console.log(view);
     setView(view);
   }
 
   function handleCartItems(view) {
-    setView(view);
+     console.log("Cart button clicked"); 
+    setView("cart");
   }
 
   function handleButtonAddToCart(product, action) {
@@ -287,8 +292,7 @@ return(
     {view == "product" && <ProductPage productList={productList}
                                       onButtonAddToCart={handleButtonAddToCart}
     />}
-    {view == "Cart" && 
-    <Cart onCartItems={handleCartItems}/>
+    {view == "Cart" && <Cart /> 
      } 
     </>
 )

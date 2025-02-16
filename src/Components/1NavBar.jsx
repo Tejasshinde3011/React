@@ -7,8 +7,9 @@ function NavBar(props){
         let {updateCart} = props;
         let {totalprice} = props;
        useEffect(() => {
-  console.log("Cart updated:", updateCart);
-  console.log("Cart length:", updateCart.length);
+  // console.log("Cart updated:", updateCart);
+  // console.log("Cart length:", updateCart.length);
+ 
 }, [updateCart]); 
     function handleOpenLogIn() {
         setOpenSignUp(false)
@@ -28,15 +29,8 @@ function NavBar(props){
       props.onHomeButtonClick(view);
     }    
 
-    function handleCartItems() {
-      props.onCartItems();
-    }
-
-    function handleCartItems() {
-      props.onCartItems();
-    }
     
-
+ console.log("Received onCartItems function:", props.onCartItems);
     return(
         <>
         <div className="row bg-black px-1">
@@ -202,10 +196,11 @@ function NavBar(props){
                   </button>
                 </div>
                 <div className="col-4 text-end ">
-                 <button className="logobtn" onClick={handleCartItems}>
-                  <h3><i class="bi bi-bag" style={{color:"black"}}></i></h3>
-                  </button></div>
-                  <div className="col-4 ">{updateCart.length}</div>
+                 <button className="logobtn" onClick={props.onCartItems}>
+                 <h3><i className="bi bi-bag" style={{ color: "black" }}></i></h3>
+                 </button>
+                </div>
+                <div className="col-4 ">{updateCart.length}</div>
                   
                 </div>
                 <div>
