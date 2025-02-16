@@ -2,7 +2,7 @@ import { useState } from "react";
 import NavBar from "./1NavBar";
 import ProductPage from "./1ProductPage";
 import Cart from "./1AddCart";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 function Block(){
   let[view, setView] = useState("product");
@@ -209,6 +209,10 @@ let[cartItems, setCartItems] = useState([]);
     setView(view);
   }
 
+  function handleCartItems(view) {
+    setView(view);
+  }
+
   function handleButtonAddToCart(product, action) {
 let temp = [...productList];    
 let index = temp.indexOf(product);
@@ -216,10 +220,11 @@ let index = temp.indexOf(product);
 //to do + - on card page
       if (action == "+") {
         product.qty++;
+        setCnt(cnt+1);
         // temp[index].qty++;
         // setFltrpList[temp];
         setproductList[temp];
-        setCnt(cnt+1);
+       
       }
       else if (action == "-") {
         product.qty--;
@@ -277,12 +282,13 @@ return(
     <NavBar onHomeButtonClick={handleHomeButtonClick} 
             updateCart={cartItems}  
             totalprice={totalprice}
+            onCartItems={handleCartItems}
              />
     {view == "product" && <ProductPage productList={productList}
                                       onButtonAddToCart={handleButtonAddToCart}
     />}
-    {view == "cart" && 
-    <Cart/>
+    {view == "Cart" && 
+    <Cart onCartItems={handleCartItems}/>
      } 
     </>
 )

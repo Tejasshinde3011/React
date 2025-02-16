@@ -14,7 +14,7 @@ function Card(props){
             <div className="p-1 container-product">
             <div className=" p-3 mx-2 ">
                 <div className="row">
-                  <div className="offset-10 col-2 col-md-1">
+                  <div className="offset-10 col-2 ">
                      <button className="logobtn heartBtn" >
                       <h5><i class="bi bi-heart" style={{color:"red"}}></i></h5>
                      </button>

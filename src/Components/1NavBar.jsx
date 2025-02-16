@@ -32,11 +32,10 @@ function NavBar(props){
       props.onCartItems();
     }
 
-    function handleButtonAddToCart() {
-      updateCart.map((e)=>{
-        
-      })
+    function handleCartItems() {
+      props.onCartItems();
     }
+    
 
     return(
         <>
