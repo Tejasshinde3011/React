@@ -4,9 +4,15 @@ function Card(props){
     
     let {product} = props; 
 
-    function handleButtonAddToCart(action) { 
-        props.onButtonAddToCart(product,action);
+    function handleButtonAddToCart(product) { 
+        props.onButtonAddToCart(product);
         // console.log(product);   
+    }
+    function handleIncreaseCnt(product) { 
+        props.onIncreaseCnt(product); 
+    }
+    function handleDecreaseCnt(product) { 
+        props.onDecreaseCnt(product);
     }
     return(
       
@@ -42,15 +48,15 @@ function Card(props){
                 </div>
                 <div> 
                      {  product.qty == 0 && product.inStock == true && (
-                    <button className="button" onClick={()=>handleButtonAddToCart("+")}>Add To Cart</button>)
+                    <button className="button" onClick={()=>handleButtonAddToCart(product)}>Add To Cart</button>)
                     } 
 
                     { product.qty != 0 && product.inStock == true && (
                         <div>
                             
-                            <button className="button" onClick={()=>handleButtonAddToCart("+")}>+</button> {"  "}
+                            <button className="button" onClick={()=>handleIncreaseCnt(product)}>+</button> {"  "}
                             {product.qty}{"  "}
-                            <button className="button" onClick={()=>handleButtonAddToCart("-")}>-</button> 
+                            <button className="button" onClick={()=>handleDecreaseCnt(product)}>-</button> 
                         </div>    
                     )}   
                 </div>

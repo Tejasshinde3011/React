@@ -2,7 +2,7 @@ import { useState } from "react";
 import NavBar from "./1NavBar";
 import ProductPage from "./1ProductPage";
 import Cart from "./1AddCart";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 function Block(){
   let[view, setView] = useState("product");
@@ -200,87 +200,59 @@ function Block(){
       qty: 0,
       type: "Mobile",
     },
-   ];
-let[productList,setproductList] = useState(pList);
-let[cartItems, setCartItems] = useState([]);
+  ];
+  let[cartItems, setCartItems] = useState([]);
+  let[productList,setproductList] = useState(pList);
+  
 
-useEffect(() => {
-  console.log("Current view:", view);
-}, [view]);
+// useEffect(() => {
+//   console.log("Current view:", view);
+// }, [view]);
 
-  function handleHomeButtonClick(view) {
+function handleHomeButtonClick(view) {
     console.log(view);
     setView(view);
   }
-
-  function handleCartItems(view) {
+function handleCartItems(view) {
      console.log("Cart button clicked"); 
     setView("cart");
   }
 
-  function handleButtonAddToCart(product, action) {
-let temp = [...productList];    
-let index = temp.indexOf(product);
-
-//to do + - on card page
-      if (action == "+") {
-        product.qty++;
-        setCnt(cnt+1);
-        // temp[index].qty++;
-        // setFltrpList[temp];
-        setproductList[temp];
-       
-      }
-      else if (action == "-") {
-        product.qty--;
-        // temp[index].qty--;
-        // setFltrpList[temp];
-        setproductList[temp];
-        setCnt(cnt-1);
-      }
-
-let updateCart = [...cartItems]; 
-// If qty is 0, remove the item from the cart . if id does not match keeps it in updated array
-if (product.qty == 0) {
-  //remove
-  updateCart = updateCart.filter((e) => e.id !== product.id);  
-} 
-else {
-  // Check if product exists in cart
- if(product.qty==1 && action=="+")
-  {// add
-    updateCart.push(product);
-  }
-  else if (product.qty==1 && action=="-") {
-    return product;
-  }
-  else{
-    updateCart=updateCart.map((e)=>{
-     //edit
-      if(e.id==product.id)
-      {
-        return product;
-      }
-      else
-      {
-        return e;
-      }
-    })
+function handleButtonAddToCart(product) {
+  let temp = [...productList];    
+  let index = temp.indexOf(product);
+  let newProduct = { ...temp[index] }; // new object to avoid direct state mutation
+  if (newProduct.qty==0) {
+    newProduct.qty++;
+    setCnt(cnt+1);   //total cart items
+    temp[index]= newProduct;  //Update List
+    setproductList([...temp]);
   }
 }
-// Finally, update state with the new cart
-setCartItems(updateCart);  
 
-if (updateCart.length!=0) {
-  for (let i = 0; i < updateCart.length; i++) {
-   ttlprice = ttlprice + (updateCart[i].mrp - (updateCart[i].discount * 0.01 * updateCart[i].mrp)) * updateCart[i].qty;
-   console.log(ttlprice);
+function handleIncreaseCnt(product) { 
+  let temp = [...productList];    
+  let index = temp.indexOf(product);
+  let newProduct = { ...temp[index] }; 
+  newProduct.qty++;
+  temp[index]= newProduct;  
+  setproductList([...temp]);
 }
-}
-else{ttlprice=0};
-setTotalprice(ttlprice);
 
+function handleDecreaseCnt(product) { 
+  let temp = [...productList];    
+  let index = temp.indexOf(product);
+  let newProduct = { ...temp[index] }; 
+  newProduct.qty--;
+  temp[index]= newProduct; 
+  setproductList([...temp]);
+
+  if (newProduct.qty==0) {
+  //remove product from list  
+  setCnt(cnt-1);
+  }
 }
+
 return(
     <> 
     
@@ -288,10 +260,17 @@ return(
             updateCart={cartItems}  
             totalprice={totalprice}
             onCartItems={handleCartItems}
-             />
-    {view == "product" && <ProductPage productList={productList}
-                                      onButtonAddToCart={handleButtonAddToCart}
+            cnt={cnt}
+    />
+
+    {view == "product" && 
+            <ProductPage  productList={productList}
+                          onButtonAddToCart={handleButtonAddToCart}
+                          onIncreaseCnt={handleIncreaseCnt}
+                          onDecreaseCnt={handleDecreaseCnt}
+                          view={view}
     />}
+
     {view == "Cart" && <Cart /> 
      } 
     </>

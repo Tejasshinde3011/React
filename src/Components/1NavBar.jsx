@@ -6,6 +6,7 @@ function NavBar(props){
         let[openSignUp, setOpenSignUp] = useState(false);
         let {updateCart} = props;
         let {totalprice} = props;
+        let {cnt} = props;
        useEffect(() => {
   // console.log("Cart updated:", updateCart);
   // console.log("Cart length:", updateCart.length);
@@ -29,34 +30,34 @@ function NavBar(props){
       props.onHomeButtonClick(view);
     }    
 
-    
- console.log("Received onCartItems function:", props.onCartItems);
+    function handleCartItems() {
+    console.log("Cart button clicked"); 
+    props.onCartItems();
+    }
+//  console.log("Received onCartItems function:", props.onCartItems);
     return(
         <>
         <div className="row bg-black px-1">
-            <div className="col-3  text-start textsize">
+            <div className="col-12 col-sm-6 col-md-4 col-lg-3  text-start textsize ">
                 <i className="bi bi-envelope-fill" style={{color:"white"}}></i>{" "}
                 : <a href="" style={{color:"white"}}>techstore@gmail.com</a> 
             </div>
-            <div className="col-6  text-center textsize ">TECH STORE</div>
-            <div className="col-3 text-end textsize">
+            <div className="col-12 col-sm-6 col-md-6 col-lg-6 text-center textsize">TECH STORE</div>
+            <div className="col-12 col-sm-10 col-md-8 col-lg-3 text-end textsize">
                 <i className="bi bi-telephone-fill" style={{color:"white"}}></i>{" "}
                 : 65748-638-5355
             </div>
         </div>
 
         <div className="row text-end">
-          div
         </div>
 
-
-
-
         <div className="row text-center navbar ">
-            <div className="col-2 ">
+            <div className="col-12 col-sm-6 col-md-4 col-lg-2 ">
                 <button className="logobtn" onClick={()=>handleHomeButtonClick("product")}><img src="./Images/Products/Logo.jpg" alt="" /></button>
-            </div>
-            <div className="col-8 justify-content-center p-4 ">
+          </div>
+
+          <div className="col-12 col-sm-10 col-md-8 col-lg-8 justify-content-center p-4 ">
 
 {/* LOGIN MODAL FORM */}
 
@@ -188,19 +189,19 @@ function NavBar(props){
       
 
             </div>
-            <div className="col-2 justify-content-end ">
+            <div className="col-12 col-sm-6 col-md-4 col-lg-2 justify-content-end ">
                <div className="row">
-                <div className="col-4 ">
+                <div className=" col-md-6 col-lg-4 ">
                   <button className="logobtn" >
                   <h3><i class="bi bi-heart-fill" style={{color:"red"}}></i></h3>
                   </button>
                 </div>
-                <div className="col-4 text-end ">
-                 <button className="logobtn" onClick={props.onCartItems}>
+                <div className=" text-end col-md-4 col-lg-4 ">
+                 <button className="logobtn" onClick={handleCartItems}>
                  <h3><i className="bi bi-bag" style={{ color: "black" }}></i></h3>
                  </button>
                 </div>
-                <div className="col-4 ">{updateCart.length}</div>
+                <div className=" col-md-2  col-lg-4 ">{cnt}</div>
                   
                 </div>
                 <div>

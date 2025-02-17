@@ -5,8 +5,6 @@ import './App.css'
 import Block from './Components/1Block'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
    <Block/>
   )
