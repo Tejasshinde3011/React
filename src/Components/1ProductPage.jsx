@@ -13,7 +13,7 @@ function ProductPage(props){
     }
     return(
         
-        <div className="container-fluid">
+        <div className="container-fluid ">
         <div className="row m-2 justify-content-center">
         {productList.map((e,index)=>
         <Card   key={index} product={e}  
