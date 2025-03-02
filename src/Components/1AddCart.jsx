@@ -82,11 +82,11 @@ function Cart(props) {
                                         </div>
 
                                         <div>
-                                            {product.qty === 0 && product.inStock && (
+                                            {/* {product.qty === 0 && product.inStock && (
                                                 <button className="button" onClick={() => handleButtonAddToCart(product)}>
                                                     Add To Cart
                                                 </button>
-                                            )}
+                                            )} */}
 
                                             {product.qty !== 0 && product.inStock && (
                                                 <div>

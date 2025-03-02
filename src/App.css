@@ -47,7 +47,7 @@ img{width: 50%; }
 .container-image{position: relative;}
 .container-image:hover{transform: scale(1.05); transition-duration: 2s;}
 .discount{position: absolute; box-shadow: 1px 1px 5px rgb(209, 209, 209); border-radius: 5px;}
-.container-product{box-shadow: 1px 1px 5px rgb(186, 186, 186); border-radius: 5px;}
+.container-product{box-shadow: 1px 1px 5px rgb(221, 221, 221); border-radius: 5px;}
 .container-product:hover{transform: scale(1.02); transition-duration: 0s;}
 .button{background-color: white; color: black; box-shadow: 1px 1px 5px rgb(209, 209, 209); margin: 5px; border: none;}
 .button:hover{transform: scale(1.05); } 
@@ -69,4 +69,199 @@ img{width: 50%; }
 .heartBtn:hover i::before {
   content: "\F415";
   font-family: "Bootstrap Icons";
+}
+.arrowBtn{cursor: "pointer";
+    box-shadow: "5px 1px 5px rgb(186, 185, 185)";
+    border-radius: "50%";
+    opacity: 30%;}
+.arrowBtn:hover{opacity: 100%;
+}    
+.marquee-container {
+  width: 100%;
+  /* Full width container */
+  overflow: hidden;
+  /* Hide overflowing text */
+  box-sizing: border-box;
+}
+
+.marquee-container {
+  /* width: 100%; */
+  
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  background-color: black;
+  
+}
+
+.marquee {
+  display: inline-block;
+  white-space: nowrap;
+  /* Animate from left (off-screen) to right (off-screen) */
+  animation: scroll 35s linear infinite;
+  color: white;
+  font-weight: 600;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+    /* start completely off-screen on the left */
+  }
+
+  100% {
+    transform: translateX(-50%);
+    /* end completely off-screen on the right */
+  }
+}
+.carsol {
+  /* margin: 10px auto; */
+  height: 50vh;
+  overflow: hidden;
+  /* box-shadow: 5px 5px 5px rgb(209, 209, 209); */
+  border-radius: 10px;
+}
+
+.carsol img {
+  height: 50vh;
+  object-fit: contain;
+  width: 100%;
+}
+.txtbold{
+  font-size: 20px; font-weight: 900; color:#888;
+}
+
+.page1{
+  background-color: black;
+  border-radius: 8px;
+  box-shadow: 5px 5px 5px rgb(209, 209, 209);
+  }
+.page1:hover{
+  transform: scale(1.008);
+}
+.page2{
+  background-color: rgb(0, 0, 0);
+  border-radius: 8px;
+  box-shadow: 5px 5px 5px rgb(209, 209, 209);
+}
+.page2:hover {
+  transform: scale(1.008);
+}
+.page1img{width: 100%;}
+
+/* ----MAINPAGE---- */
+
+.titleName{
+  font-size: "5.5em";
+  font-weight:"800"; 
+  color:"white";
+  -webkit-text-stroke: "2px black";
+  text-shadow:"4px 2px 4px rgba(0, 0, 0, 0.5)";
+  line-height:"1.5"; 
+  font-family:"sans-serif" ;
+  letter-spacing:"7px";
+  transition: letter-spacing 0.3s;
+}
+.titleName:hover{
+  letter-spacing: 4px;
+}
+.techstore-container {
+  background: linear-gradient(to bottom, white 50%, black 50%);
+  padding: 50px 0;
+  /* padding-bottom: 50px; */
+  text-align: center;
+  border-radius: 8px;
+}
+
+/* Styling for the boxes */
+.box {
+  background-color: rgba(255, 255, 255, 0.959);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+.box:hover{
+  transform: scale(1.05);
+  transition-duration: 2s;
+
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .box {
+    margin-bottom: 20px;
+  }
+}
+.btncont{
+  box-shadow: 8px 5px 15px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+}
+.banner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.banner-img {
+  width: 100%;
+  opacity: 50%;
+  display: block;
+}
+
+.banner-txt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 15em;
+  font-weight: 900;
+  z-index: 2;
+  line-height: 1;
+  transition: text-shadow 0.3s;
+  transition: color 0.3s;
+  transition: letter-spacing 0.3s;
+ 
+  
+}
+.banner-txt:hover{
+text-shadow: 12px 2px 4px rgba(0, 0, 0, 0.5);
+color: #95f200;
+letter-spacing: 25px;
+transition-duration: 3s;
+}
+.about{
+  box-shadow: 8px 5px 15px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+}
+.iconDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.iconDisplay p {
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  font-size: 0.9em;
+  /* Adjust size if needed */
+  margin-top: 5px;
+}
+
+.iconDisplay:hover p {
+  opacity: 1;
+}
+.symbolBtn {
+  background-color: transparent;
+  color: black;
+  box-shadow: 1px 1px 5px rgb(209, 209, 209);
+  margin: 5px;
+  border: none;
+}
+
+.symbolBtn:hover {
+  transform: scale(1.05);
 }

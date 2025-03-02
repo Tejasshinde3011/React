@@ -5,7 +5,9 @@ function NavBar(props){
        
         let {totalprice} = props;
         let {cnt} = props;
-        let {user} = props;
+        let {user, loginStatus} = props;
+        console.log(user);
+        
 
      function handleOpenLogIn() {
       props.onOpenLogIn();
@@ -24,12 +26,13 @@ function NavBar(props){
     props.onCartButton();
     }
 
-    function handleLogoutBtn(params) {
+    function handleLogoutBtn() {
       props.onLogoutBtn();
     }
 
     return(
         <>
+        <div className="container-fluid">
         <div className="row bg-black px-1">
             <div className="col-12 col-sm-6 col-md-4 col-lg-3  text-start textsize ">
                 <i className="bi bi-envelope-fill" style={{color:"white"}}></i>{" "}
@@ -43,9 +46,13 @@ function NavBar(props){
         </div>
 
 
-        <div className="row text-end">
-              <div></div>
-              <span style={{fontSize:"1.3em"}}><i class="bi bi-person-fill"></i></span>
+        <div className="row text-end mx-1">
+            {loginStatus == "success" && (
+                <div>
+                  <a href="#" style={{color:"black", fontWeight:"600"}}>{user.name.toUpperCase()}</a>{" "}
+                  <span style={{fontSize:"1.3em"}}><i class="bi bi-person-fill"></i>{" "}</span>
+                </div>
+            )}   
         </div>
 
 {/* NAVBAR BEGIN */}
@@ -105,6 +112,7 @@ function NavBar(props){
             
 
         </div>  
+        </div>
 {/* NAVBAR END */}
         </>
     )

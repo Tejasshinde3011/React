@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavBar from "./1NavBar";
 import ProductPage from "./1ProductPage";
 import Cart from "./1AddCart";
 import SignUp from "./1SignUp";
 import LogIn from "./1LogIn";
 import axios from "axios";
+import AdminProductPage from "./1AdminProductPage";
 // import { useEffect } from "react";
 
 function Block(){
@@ -209,6 +210,41 @@ function Block(){
   let[openLogIn, setOpenLogIn] = useState(false);
   let[openSignUp, setOpenSignUp] = useState(false);
   let[user, setUser] = useState(null);
+  let [loginStatus, setLoginStatus] = useState("no");
+  let [successMessage, setSuccessMessage] = useState(false);
+ 
+
+
+  useEffect(() => {
+    getdataFromServer();
+  let storedUser = localStorage.getItem("user");
+  let storedCart = localStorage.getItem("cartItems");
+  let storedTotalPrice = localStorage.getItem("totalprice");
+  let storedLoginStatus = localStorage.getItem("loginStatus");
+// console.log(storedCart);
+// console.log(storedCart.length);
+
+  if (storedUser) {
+    setUser(JSON.parse(storedUser));
+    setLoginStatus(storedLoginStatus || "no");
+  }
+
+  if (storedCart) {
+    setCartItems(JSON.parse(storedCart));
+    setCnt(JSON.parse(storedCart).length);  
+  }
+
+  if (storedTotalPrice) {
+    setTotalprice(parseFloat(storedTotalPrice)); 
+  }
+
+}, []);
+
+  useEffect(() => {
+  localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  localStorage.setItem("totalprice", totalprice.toString());
+  localStorage.setItem("cnt", cnt.toString());
+}, [cartItems, totalprice, cnt]); 
   
 function handleHomeButtonClick(view) {
     console.log(view);
@@ -238,6 +274,11 @@ function handleButtonAddToCart(product) {
     setCartItems(updatedCart); // Update cart state
     setTotalprice(totalprice + (newProduct.mrp * (1 - newProduct.discount / 100)));
 
+
+      localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+      localStorage.setItem("totalprice", (totalprice + (newProduct.mrp * (1 - newProduct.discount / 100))).toString());
+      localStorage.setItem("cnt", (cnt + 1).toString());
+
     console.log(updatedCart); 
     }
   }
@@ -255,48 +296,74 @@ function handleIncreaseCnt(product) {
     item.id === product.id ? { ...item, qty: item.qty + 1 } : item);
     setCartItems(updatedCart);
 
-    // Updating total price without `prev`
+    // Updating total price
     setTotalprice(totalprice + (product.mrp * (1 - product.discount / 100)));
+    updateLocalStorage();
     console.log(updatedCart);
   }
 
 
  function handleDecreaseCnt(product) { 
     let temp = [...productList];    
-    let index = temp.indexOf(product);
-    let newProduct = { ...temp[index] }; 
-    newProduct.qty--;
-    temp[index] = newProduct; 
-    setproductList([...temp]);
+    let index = temp.findIndex((item) => item.id === product.id);
 
-    let updatedCart;
+    if (index !== -1) {
+        let newProduct = { ...temp[index] }; 
+        newProduct.qty--;
 
         if (newProduct.qty === 0) {
             setCnt(cnt - 1);  // Reduce cart count
-            updatedCart = cartItems.filter(item => item.id !== product.id); // Remove item from cart
-        } else {
-            updatedCart = cartItems.map(item => 
+            let updatedCart = cartItems.filter(item => item.id !== product.id); // Remove item from cart
+            setCartItems(updatedCart);
+
+            // ✅ Reset qty in `productList`
+            newProduct.qty = 0;
+            temp[index] = newProduct;
+            setproductList([...temp]);    // updates the productlist 
+
+            if (updatedCart.length === 0) {
+                setTotalprice(0);
+            } else {
+                setTotalprice(totalprice - (product.mrp * (1 - product.discount / 100)));
+            }
+        } else {    //this is to decrease qty of product
+            temp[index] = newProduct;
+            setproductList([...temp]);
+
+  //           Why spread ([...])?
+	// •	React detects state changes only when a new reference is assigned.
+	// •	setproductList(temp); would not work properly since temp is a mutated array.
+	// •	setproductList([...temp]); creates a new array reference, triggering a re-render.
+
+            let updatedCart = cartItems.map(item => 
                 item.id === product.id ? { ...item, qty: item.qty - 1 } : item
             );
-        }
-
-        setCartItems(updatedCart);
-        if (updatedCart.length === 0) {
-            setTotalprice(0);
-        } else {
+            setCartItems(updatedCart);
             setTotalprice(totalprice - (product.mrp * (1 - product.discount / 100)));
         }
-        console.log(updatedCart);
-  }
+
+        updateLocalStorage();
+        console.log("Updated Cart:", cartItems);
+        console.log("Updated Product List:", productList);
+    }
+}
 
 function handleRemoveBtn(product) {
-  let updatedCart = cartItems.filter(item => item.id !== product.id)
-  setCartItems(updatedCart);
-  
+    let updatedCart = cartItems.filter(item => item.id !== product.id);
+
+    let temp = [...productList];
+    let index = temp.findIndex((item) => item.id === product.id);
+    if (index !== -1) {
+        temp[index].qty = 0; // ✅ Reset qty in `productList`
+        setproductList([...temp]);
+    }
+
+    setTotalprice(totalprice - (product.mrp * (1 - product.discount / 100)) * product.qty);
+    setCartItems(updatedCart);
+    updateLocalStorage();
 }
 
-function handleCartButton() { setView("CartList");
-}
+function handleCartButton() { setView("CartList");}
 
 //MODAL FORM OPEN CLOSE
 
@@ -319,16 +386,20 @@ function handleCloseLogIn ()  {
 
 function handleLogoutBtn() {
   setUser(null);   
-  setLoginStatus("no")
-  setView("product")
-  
-  
+  setLoginStatus("no");
+  setView("product") ;
+  setCartItems([]);
+  setCnt(0);
+  setTotalprice(0);
+
+  localStorage.removeItem("user");
+  localStorage.removeItem("loginStatus");
+  localStorage.removeItem("cartItems");
+  localStorage.removeItem("totalprice");
+  localStorage.removeItem("cnt");
 }
 
-console.log(user);
 
-let [loginStatus, setLoginStatus] = useState("no");
-let [successMessage, setSuccessMessage] = useState(false);
 
 function handleFormSubmitLoginBtn(event) {
    
@@ -337,7 +408,7 @@ function handleFormSubmitLoginBtn(event) {
     for (let data of formData) {
        user[data[0]] = data[1];
     }
-    setUser(user);   //giving user to block component for logout and displaying user
+     //giving user to block component for logout and displaying user
     checkUser(user);
         
     async function checkUser(props) {
@@ -350,6 +421,17 @@ function handleFormSubmitLoginBtn(event) {
       if (filteredData.length >= 1) {
         setLoginStatus("success");
         setUser(filteredData[0]);
+        let u = filteredData[0];
+
+        localStorage.setItem("user", JSON.stringify(filteredData[0]));
+        localStorage.setItem("loginStatus", "success");
+
+        if (u.role == "admin") {
+          setView("adminPage");
+        }
+        else if (u.role == "user") {
+        }
+
         setSuccessMessage(true);
 
         setTimeout(()=>{
@@ -362,7 +444,46 @@ function handleFormSubmitLoginBtn(event) {
     }
 }
 
+//ADMIN DELETE PRODUCT
 
+async function getdataFromServer() {
+  let response = await axios("http://localhost:3000/devices")
+  let pList = response.data;
+   setproductList(pList);
+}
+async function handleDeleteProduct(product) {
+  let ans =window.confirm(
+    "Do you want to delete the product - " + product.name + "?"
+  );
+  if (ans) {
+    let response = await axios.delete(
+    "http://localhost:3000/devices/" + product.id);
+  let pList = productList.filter(item => item.id !== product.id
+  );
+  setproductList(pList);
+  console.log("Product deleted:", response.data);
+  }
+}
+
+
+async function handleProductEditFormSubmit(product) {
+  // let response= await axios.put(
+  //   "http://localhost:3000/devices/"+product.id,product);
+    let pList = productList.map((e,index)=>{
+      if (e.id==product.id) {
+         return product;
+      }
+      else{return e};
+    })
+    setproductList(pList);
+}
+
+async function handleProductAddFormSubmit(product) {
+  // let response = await axios.post("http://localhost:3000/devices", product);
+  let pList = [...productList]
+   pList.push(product)
+  setproductList(pList)
+}
 
 return(
   <> 
@@ -375,6 +496,7 @@ return(
             onOpenSignUp={handleOpenSignUp}
             onOpenLogIn={handleOpenLogIn}
             user={user}
+            loginStatus={loginStatus}
             onLogoutBtn={handleLogoutBtn}
     />
 
@@ -417,6 +539,16 @@ return(
             successMessage={successMessage}
 
     />
+    
+    {view == "adminPage" && <div className="row m-2 justify-content-center">
+    <AdminProductPage   productList={productList}
+                        onDeleteProduct={handleDeleteProduct}
+                        onProductEditFormSubmit={handleProductEditFormSubmit}
+                        onProductAddFormSubmit={handleProductAddFormSubmit}
+    />
+    </div>}
+    
+
   </>
   )
 }
