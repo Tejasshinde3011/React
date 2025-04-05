@@ -1,6 +1,7 @@
 import { useState} from "react"
 import { Modal } from "@mui/material"; 
 import axios from "axios";
+import {getUsersFromBackend, getSingleUsersFromBackend, addUsersToBackend, updateBackendUsers, deleteBackendUsers} from "./fireBaseUserService";
 
 function SignUp(props) {
 
@@ -27,8 +28,10 @@ function SignUp(props) {
     async function checkUserExists(user) {
     
       // Fetching all users.
-      let response = await axios("http://localhost:3000/users");
-      let data = await response.data; // Getting data
+      // let response = await axios("http://localhost:3000/users");
+      // let data = await response.data; // Getting data
+      let data = await getUsersFromBackend() ;
+
 
       // Filter users based on the email provided by the user
       let filteredData = data.filter((e) => e.email == user.email);
@@ -48,7 +51,8 @@ function SignUp(props) {
      async function addUser(user) {
    
       // Send a POST request to add the new user to the backend
-      let response = await axios.post("http://localhost:3000/users", user);
+      // let response = await axios.post("http://localhost:3000/users", user);
+      await addUsersToBackend(user);
       setSignupStatus("success"); // Update signup status to success
       setMessage("User successfully registered!"); // Show success message
      } 
@@ -100,7 +104,7 @@ function SignUp(props) {
                         )}
                         {(signupStatus == "no" || signupStatus == "failed") && (
                             <form onSubmit={handleFormSubmitSignupBtn} method="post" >
-                        <div className="text-end "><button className="cancelBtn" onClick={handleCloseSignUp}><><i class="bi bi-x" style={{fontSize:'1.5em'}}></i></></button></div>
+                        <div className="text-end "><button className="cancelBtn" onClick={handleCloseSignUp}><><i className="bi bi-x" style={{fontSize:'1.5em'}}></i></></button></div>
                         <div className="text-center mb-3 modalTitle pb-2">Sign Up</div>
                         <div className="row align-items-center m-2">
                             <div className="col-6 text-end">

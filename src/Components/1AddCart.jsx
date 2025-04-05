@@ -13,6 +13,9 @@ function Cart(props) {
     function handleRemoveBtn(product) { 
         props.onRemoveBtn(product);
     }
+    function handlePlaceorder() { 
+        props.onPlaceorder();
+    }
     //to shuffle elements for tech it more
     function shuffleArray(array) {
         return array.sort(()=>Math.random()-0.5)
@@ -172,7 +175,7 @@ function Cart(props) {
                     </div>
                     <div className="m-3" style={{backgroundColor:"lightgreen", opacity:"0.8"}}>
                             <div>
-                                <i class="bi bi-piggy-bank-fill" style={{color:"darkgreen", fontSize:"1.5em"}}></i>{"  "}
+                                <i className="bi bi-piggy-bank-fill" style={{color:"darkgreen", fontSize:"1.5em"}}></i>{"  "}
                                 You'll save ₹ 
                                     <span style={{ fontWeight: "bold" }}>
                                         {(
@@ -281,10 +284,10 @@ function Cart(props) {
                     <div className="row align-items-start m-3" style={{fontSize:"1.3em", fontWeight:"bold"}}>
                         <div className="offset-3 col-3 mt-3">
                             ₹ {(totalprice+(totalprice*0.0002)).toFixed(2)}{" "}
-                            {" "}<i class="bi bi-caret-right-fill"></i>
+                            {" "}<i className="bi bi-caret-right-fill"></i>
                         </div>
                         <div className="col-2 ">
-                            <button className="logobtn" style={{backgroundColor:"orange", color:"black"}}>Place Order</button>
+                            <button className="logobtn" style={{backgroundColor:"orange", color:"black"}} onClick={handlePlaceorder}>Place Order</button>
                         </div>
                     </div>
                 </div>  

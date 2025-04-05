@@ -1,12 +1,18 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import NavBar from "./1NavBar";
 import ProductPage from "./1ProductPage";
 import Cart from "./1AddCart";
 import SignUp from "./1SignUp";
 import LogIn from "./1LogIn";
+import BillLink from "./1BillLink";
 import axios from "axios";
 import AdminProductPage from "./1AdminProductPage";
-// import { useEffect } from "react";
+import {getUsersFromBackend, getSingleUsersFromBackend, updateBackendUsers, deleteBackendUsers} from "./fireBaseUserService";
+import {getProductsFromBackend, getSingleProductsFromBackend, addProductsToBackend, updateBackendProducts, deleteBackendProducts} from "./fireBaseProductsService";
+import {getBillsFromBackend, getSingleBillsFromBackend, addBillsToBackend, updateBackendBills, deleteBackendBills} from "./firebaseBillsService";
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import Bill from "./1Bill";
+import { BeatLoader, PacmanLoader, RingLoader } from "react-spinners";
 
 function Block(){
   let[view, setView] = useState("product");
@@ -209,10 +215,17 @@ function Block(){
   let[productList,setproductList] = useState(pList);
   let[openLogIn, setOpenLogIn] = useState(false);
   let[openSignUp, setOpenSignUp] = useState(false);
-  let[user, setUser] = useState(null);
+  let[user, setUser] = useState("");
   let [loginStatus, setLoginStatus] = useState("no");
   let [successMessage, setSuccessMessage] = useState(false);
+  let [flagLoader, setFlagLoader] = useState(false);
+
  
+//FIREBASE
+  
+const provider = new GoogleAuthProvider();
+const auth = getAuth();
+
 
 
   useEffect(() => {
@@ -224,7 +237,9 @@ function Block(){
 // console.log(storedCart);
 // console.log(storedCart.length);
 
+
   if (storedUser) {
+    console.log(storedUser);
     setUser(JSON.parse(storedUser));
     setLoginStatus(storedLoginStatus || "no");
   }
@@ -245,6 +260,8 @@ function Block(){
   localStorage.setItem("totalprice", totalprice.toString());
   localStorage.setItem("cnt", cnt.toString());
 }, [cartItems, totalprice, cnt]); 
+
+useEffect
   
 function handleHomeButtonClick(view) {
     console.log(view);
@@ -252,15 +269,20 @@ function handleHomeButtonClick(view) {
   }
 
 function handleButtonAddToCart(product) {
+  console.log("button clicked");
+  
     let temp = [...productList];    
     let index = temp.indexOf(product);
     let newProduct = { ...temp[index] };
+    console.log(index);
     
-    if (newProduct.qty === 0) {
+    
+    if (newProduct.qty == 0) {
+      
       newProduct.qty++;
       setCnt(cnt + 1);
       temp[index] = newProduct;  //update list 
-      setproductList([...temp]);
+      setproductList(temp);
       
      let updatedCart;
     
@@ -276,7 +298,8 @@ function handleButtonAddToCart(product) {
 
 
       localStorage.setItem("cartItems", JSON.stringify(updatedCart));
-      localStorage.setItem("totalprice", (totalprice + (newProduct.mrp * (1 - newProduct.discount / 100))).toString());
+      localStorage.setItem("totalprice", (totalprice + (newProduct.mrp * 
+                              (1 - newProduct.discount / 100))).toString());
       localStorage.setItem("cnt", (cnt + 1).toString());
 
     console.log(updatedCart); 
@@ -293,25 +316,25 @@ function handleIncreaseCnt(product) {
     setproductList([...temp]);
     
    let updatedCart = cartItems.map(item => 
-    item.id === product.id ? { ...item, qty: item.qty + 1 } : item);
+    item.id == product.id ? { ...item, qty: item.qty + 1 } : item);
     setCartItems(updatedCart);
 
     // Updating total price
     setTotalprice(totalprice + (product.mrp * (1 - product.discount / 100)));
-    updateLocalStorage();
+    // updateLocalStorage();
     console.log(updatedCart);
   }
 
 
  function handleDecreaseCnt(product) { 
     let temp = [...productList];    
-    let index = temp.findIndex((item) => item.id === product.id);
+    let index = temp.findIndex((item) => item.id == product.id);
 
     if (index !== -1) {
         let newProduct = { ...temp[index] }; 
         newProduct.qty--;
 
-        if (newProduct.qty === 0) {
+        if (newProduct.qty == 0) {
             setCnt(cnt - 1);  // Reduce cart count
             let updatedCart = cartItems.filter(item => item.id !== product.id); // Remove item from cart
             setCartItems(updatedCart);
@@ -321,7 +344,7 @@ function handleIncreaseCnt(product) {
             temp[index] = newProduct;
             setproductList([...temp]);    // updates the productlist 
 
-            if (updatedCart.length === 0) {
+            if (updatedCart.length == 0) {
                 setTotalprice(0);
             } else {
                 setTotalprice(totalprice - (product.mrp * (1 - product.discount / 100)));
@@ -336,7 +359,7 @@ function handleIncreaseCnt(product) {
 	// •	setproductList([...temp]); creates a new array reference, triggering a re-render.
 
             let updatedCart = cartItems.map(item => 
-                item.id === product.id ? { ...item, qty: item.qty - 1 } : item
+                item.id == product.id ? { ...item, qty: item.qty - 1 } : item
             );
             setCartItems(updatedCart);
             setTotalprice(totalprice - (product.mrp * (1 - product.discount / 100)));
@@ -385,6 +408,7 @@ function handleCloseLogIn ()  {
 }
 
 function handleLogoutBtn() {
+  auth.signOut();
   setUser(null);   
   setLoginStatus("no");
   setView("product") ;
@@ -411,9 +435,10 @@ function handleFormSubmitLoginBtn(event) {
      //giving user to block component for logout and displaying user
     checkUser(user);
         
-    async function checkUser(props) {
-           let response = await axios("http://localhost:3000/users");
-           let data = await response.data; 
+    async function checkUser(user) {
+          //  let response = await axios("http://localhost:3000/users");
+          //  let data = await response.data; 
+          let data = await getUsersFromBackend();
 
            let filteredData = data.filter((e) => 
                            e.email == user.email && e.password == user.password);
@@ -447,21 +472,44 @@ function handleFormSubmitLoginBtn(event) {
 //ADMIN DELETE PRODUCT
 
 async function getdataFromServer() {
-  let response = await axios("http://localhost:3000/devices")
-  let pList = response.data;
+  setFlagLoader(true);
+  // let response = await axios("http://localhost:3000/devices")
+  // let pList = response.data;
+  let pList = await getProductsFromBackend();
    setproductList(pList);
+    let usr={};
+   await onAuthStateChanged(auth, (user)=>{
+    console.log(user);
+   
+    if (user) {
+      usr.name = user.displayName;
+      usr.emailid = user.email;
+      if (usr.emailid = "tejasmshinde5@gmail.com") {
+        usr.role = "admin";
+      }
+      else{
+        usr.role = "user";
+      }
+    }
+    else{
+      usr=null;
+    }
+   })
+  setUser(usr);
+  setFlagLoader(false);
 }
 async function handleDeleteProduct(product) {
   let ans =window.confirm(
     "Do you want to delete the product - " + product.name + "?"
   );
   if (ans) {
-    let response = await axios.delete(
-    "http://localhost:3000/devices/" + product.id);
+    // let response = await axios.delete(
+    // "http://localhost:3000/devices/" + product.id);
+    await deleteBackendProducts(product.id);
   let pList = productList.filter(item => item.id !== product.id
   );
   setproductList(pList);
-  console.log("Product deleted:", response.data);
+  // console.log("Product deleted:", response.data);
   }
 }
 
@@ -469,6 +517,7 @@ async function handleDeleteProduct(product) {
 async function handleProductEditFormSubmit(product) {
   // let response= await axios.put(
   //   "http://localhost:3000/devices/"+product.id,product);
+  await updateBackendProducts(product);
     let pList = productList.map((e,index)=>{
       if (e.id==product.id) {
          return product;
@@ -480,11 +529,64 @@ async function handleProductEditFormSubmit(product) {
 
 async function handleProductAddFormSubmit(product) {
   // let response = await axios.post("http://localhost:3000/devices", product);
+  await addProductsToBackend(product);
   let pList = [...productList]
    pList.push(product)
   setproductList(pList)
 }
 
+function handleLoginUsingGoogleButtonClick() {
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+    console.log(user);
+
+    let usr = {};
+    usr.name = user.displayName;
+    usr.emailid = user.email;
+    if (usr.emailid == "tejasmshinde5@gmail.com") {
+      usr.role = "admin";
+      setView("adminPage")
+    }
+    else{
+      usr.role = "user";
+      setView("product");
+    }
+    setUser(usr);
+    setOpenLogIn(false);
+
+  })
+    .catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+}
+
+//PLACE ORDER
+
+function handlePlaceorder() {
+  setView("bill");
+}
+
+if (flagLoader) {
+    return (
+      <div className=" justify-content-center d-flex my-3">
+        <RingLoader size={50} color={"green"} className="text-center" />
+      </div>
+    );
+  }
 return(
   <> 
     <NavBar onHomeButtonClick={handleHomeButtonClick} 
@@ -518,6 +620,7 @@ return(
                onIncreaseCnt={handleIncreaseCnt}
                onDecreaseCnt={handleDecreaseCnt}
                onRemoveBtn={handleRemoveBtn}
+               onPlaceorder={handlePlaceorder}
                totalprice={totalprice}
                productList={productList}
            />
@@ -530,10 +633,10 @@ return(
     />
 
     <LogIn  openLogIn={openLogIn}
-            setUser={setUser}
             setLoginStatus={setLoginStatus}
             onCloseLogIn={handleCloseLogIn}
             onOpenSignUp={handleOpenSignUp}
+            onLoginUsingGoogleButtonClick={handleLoginUsingGoogleButtonClick}
             onFormSubmitLoginBtn={handleFormSubmitLoginBtn}
             loginStatus={loginStatus}
             successMessage={successMessage}
@@ -548,6 +651,14 @@ return(
     />
     </div>}
     
+    {view == "bill" &&
+    <Bill user={user}
+          cartItems={cartItems}
+          totalprice={totalprice}
+    />
+    }
+    
+  
 
   </>
   )

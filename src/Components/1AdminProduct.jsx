@@ -20,7 +20,7 @@ function AdminProduct(props) {
                 <div className="row">
                   <div className="offset-10 col-2 ">
                      <button className="logobtn heartBtn" >
-                      <h5><i class="bi bi-heart" style={{color:"red"}}></i></h5>
+                      <h5><i className="bi bi-heart" style={{color:"red"}}></i></h5>
                      </button>
                   </div>
                 </div>
@@ -47,8 +47,8 @@ function AdminProduct(props) {
                 <div> 
                      {  product.qty == 0  && (
                         <div className="text-center">
-                            <button className="button mx-3 my-2" onClick={handleEditButtonClick}><i class="bi bi-pen-fill"></i></button>
-                            <button className="button mx-3 my-2" onClick={handleDeleteProduct}><i class="bi bi-trash-fill"></i></button>
+                            <button className="button mx-3 my-2" onClick={handleEditButtonClick}><i className="bi bi-pen-fill"></i></button>
+                            <button className="button mx-3 my-2" onClick={handleDeleteProduct}><i className="bi bi-trash-fill"></i></button>
                         </div>
                     )
                     } 

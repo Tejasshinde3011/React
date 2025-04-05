@@ -19,8 +19,8 @@ function ProductPage(props){
         
         <div className="container-fluid ">
 
-        <div class="marquee-container p-1">
-           <div class="marquee">
+        <div className="marquee-container p-1">
+           <div className="marquee">
              <span>--- SALE SALE SALE SALE --- SALE SALE SALE SALE --- SALE SALE SALE SALE ---</span>{"    "}
              <span>GREAT DISCOUNTS ON MOBILES ---- SAMSUNG GALAXY S25 ULTRA 5G --- GET IT NOW AT LOWEST PRICE --- </span>
              <span>--- SALE SALE SALE SALE --- SALE SALE SALE SALE --- SALE SALE SALE SALE ---</span>{"    "}

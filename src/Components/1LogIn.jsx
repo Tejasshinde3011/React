@@ -5,49 +5,16 @@ import { Modal } from "@mui/material";
 function LogIn(props) {
   
    
-    let {openLogIn, successMessage, loginStatus}= props;     //setUser useState defined in block component
-//     let [loginStatus, setLoginStatus] = useState("no");
-//     let [successMessage, setSuccessMessage] = useState(false);
-
-// function handleFormSubmitLoginBtn(event) {
-//     event.preventDefault();
-//     let formData = new FormData(event.target);
-//     let user = {};
-//     for (let data of formData) {
-//        user[data[0]] = data[1];
-//     }
-//     setUser(user);   //giving user to block component for logout and displaying user
-//     checkUser(user);
-        
-//     async function checkUser(props) {
-//            let response = await axios("http://localhost:3000/users");
-//            let data = await response.data; 
-
-//            let filteredData = data.filter((e) => 
-//                            e.email == user.email && e.password == user.password);
-
-//       if (filteredData.length >= 1) {
-//         setLoginStatus("success");
-//         setUser(filteredData[0]);
-//         setSuccessMessage(true);
-
-//         setTimeout(()=>{
-//             setSuccessMessage(false);
-//             handleCloseLogIn();
-//         }, 1000);
-
-        
-//       } else {
-//        setLoginStatus("failed");
-//       }
-//     }
-// }
+    let {openLogIn, successMessage, loginStatus}= props;  
 
 function handleCloseLogIn ()  {
     props.onCloseLogIn();
 }
 function handleOpenSignUp() {
     props.onOpenSignUp();
+}
+function handleLoginUsingGoogleButtonClick() {
+    props.onLoginUsingGoogleButtonClick();
 }
 function handleFormSubmitLoginBtn(event) {
      event.preventDefault();
@@ -92,7 +59,7 @@ function handleFormSubmitLoginBtn(event) {
                         )}
                         {(loginStatus == "no" || loginStatus == "failed") && (
                       <form onSubmit={handleFormSubmitLoginBtn} >
-                        <div className="text-end "><button className="cancelBtn" onClick={handleCloseLogIn}><><i class="bi bi-x" style={{fontSize:'1.5em'}}></i></></button></div>
+                        <div className="text-end "><button className="cancelBtn" onClick={handleCloseLogIn}><><i className="bi bi-x" style={{fontSize:'1.5em'}}></i></></button></div>
                         <div className="text-center mb-3 modalTitle pb-2">Log In</div>
                         <div className="row align-items-center m-2">
                             <div className="col-6 text-end">
@@ -116,6 +83,11 @@ function handleFormSubmitLoginBtn(event) {
                         </div> 
                         <div className="row m-2 text-center mt-4">
                           <div style={{fontSize:'0.8em'}}>Don't have an account? {" "}<a href="#" onClick={handleOpenSignUp}>Sign Up.</a></div>
+                        </div>
+                        <div>
+                          <button className="button" type="button" onClick={handleLoginUsingGoogleButtonClick}>
+                                  Login Using Google
+                          </button>
                         </div>
                       </form>
                         )}

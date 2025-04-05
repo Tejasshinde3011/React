@@ -4,6 +4,11 @@ import { BeatLoader } from "react-spinners";
 import fieldValidate from "./FormValidations.js";
 import { Modal } from "@mui/material"; 
 
+// import {
+//   addProductToBackend,
+//   updateBackendProduct,
+// } from "./FirebaseProductService.js";
+
 function AdminProductForm(props) {
 let emptyProduct = {
   name: "",
@@ -144,7 +149,7 @@ let emptyProduct = {
                       }}
                      >
 
-        <div className="text-end "><button className="cancelBtn" onClick={handleCloseForm}><><i class="bi bi-x" style={{fontSize:'1.5em'}}></i></></button></div>
+        <div className="text-end "><button className="cancelBtn" onClick={handleCloseForm}><><i className="bi bi-x" style={{fontSize:'1.5em'}}></i></></button></div>
         <div className="text-center text-danger">
             <a href="#" onClick={handleProductListClick}>
              LIST

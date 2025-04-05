@@ -1,17 +1,92 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Block from "./1Block";
+import BillLink from "./1BillLink";
+import {getBillsFromBackend, getSingleBillsFromBackend, addBillsToBackend, updateBackendBills, deleteBackendBills} from "./firebaseBillsService";
+import { BeatLoader, PacmanLoader, RingLoader } from "react-spinners";
 
 function Main(params) {
     let [view, setView] = useState("main");
+    let[showGif, setShowGif] = useState(false);
+    let [bill, setBill] = useState([]);
+     let [flagLoader, setFlagLoader] = useState(false);
+    
+    //FOR RETURN WHATSAPP LINK ------->
+
+useEffect (() => {
+// if()
+console.log(window.location.search + "hiiii") ;
+
+if (window.location.search == ""){
+  console.log("hii");
+  
+} else {
+  console.log("hello");
+  
+let params = new URLSearchParams(window.location.search);
+let billId = params.get("id");
+console.log(billId);
+
+if (billId == null) {
+setBill(null);
+// setView("product");
+setView("BillLink");
+return;
+} else {
+   getBill(billId);
+}
+}
+}, []);
+
+async function getBill (billId) {
+setFlagLoader (true) ;
+let b = await getSingleBillsFromBackend (billId) ;
+console.log (b) ;
+if (b == null) {
+setBill (b) ;
+setFlagLoader (false) ; 
+setView ("BillLink") ;
+return;
+}
+b.date = new Date(b.date.toDate()) ;
+setBill (b) ;
+setView ("BillLink") ;
+setFlagLoader (false) ;
+}
+
+//WHATSAPP LINK END ---->
+
     function handleMainPage() {
-        setView("block");
+        setShowGif(true);
+        setTimeout(()=>{
+            setView("block")
+        },1000);
+        ;
     }
     if (view === "block") {
         return <Block />;
     }
+    if (view === "BillLink") {
+        return <BillLink bill= {bill} />;
+    }
+    if (flagLoader) {
+    return (
+      <div className=" justify-content-center d-flex my-3">
+        <RingLoader size={50} color={"green"} className="text-center" />
+      </div>
+    );
+  }
     
  return(
     <>
+    {showGif ? (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                    <img
+                        src="./Images/Products/GIF loader.gif" // Replace with the actual path to your GIF
+                        alt="Loading..."
+                        style={{ width: '500px', height: '500px' }} // Adjust size as needed
+                    />
+                </div>
+            ) : (
     <div className="container-fluid p-2">
         <div className="row bg-black px-1 ">
             <div className="col-12 col-sm-6 col-md-4 col-lg-3  text-start textsize ">
@@ -89,27 +164,27 @@ function Main(params) {
                 <u>Products Available</u>
                 </span>
                 <div className="col-2 iconDisplay">
-                    <h1><i class="bi bi-phone "></i></h1>
+                    <h1><i className="bi bi-phone "></i></h1>
                     <p style={{fontSize:"1.3em", fontWeight:"600"}}>Mobiles</p>
                 </div>
                 <div className="col-2 iconDisplay">
-                    <h1><i class="bi bi-laptop"></i></h1>
+                    <h1><i className="bi bi-laptop"></i></h1>
                     <p style={{fontSize:"1.3em", fontWeight:"600"}}>Laptops</p>
                 </div>
                 <div className="col-2 iconDisplay">
-                    <h1><i class="bi bi-speaker"></i></h1>
+                    <h1><i className="bi bi-speaker"></i></h1>
                     <p style={{fontSize:"1.3em", fontWeight:"600"}}>Speakers</p>
                 </div>
                 <div className="col-2 iconDisplay">
-                    <h1><i class="bi bi-smartwatch"></i></h1>
+                    <h1><i className="bi bi-smartwatch"></i></h1>
                     <p style={{fontSize:"1.3em", fontWeight:"600"}}>Watches</p>
                 </div>
                 <div className="col-2 iconDisplay">
-                    <h1><i class="bi bi-camera2"></i></h1>
+                    <h1><i className="bi bi-camera2"></i></h1>
                     <p style={{fontSize:"1.3em", fontWeight:"600"}}>Cameras</p>
                 </div>
                 <div className="col-2 iconDisplay">
-                    <h1><i class="bi bi-headphones"></i></h1>
+                    <h1><i className="bi bi-headphones"></i></h1>
                     <p style={{fontSize:"1.3em", fontWeight:"600"}}>Headphones</p>
                 </div>
         </div>
@@ -148,10 +223,10 @@ function Main(params) {
             </div>
             <div className="row text-center">
                 <div className="offset-4 col-4">
-                    <button className="symbolBtn"><h3><i class="bi bi-whatsapp"></i></h3></button>
-                    <button className="symbolBtn"><a href="https://www.instagram.com/accounts/login/" style={{color:"black"}}><h3><i class="bi bi-instagram"></i></h3></a></button>
-                    <button className="symbolBtn"><a href="https://www.linkedin.com/login" style={{color:"black"}}><h3><i class="bi bi-linkedin"></i></h3></a></button>
-                    <button className="symbolBtn"><a href="https://x.com/i/flow/login" style={{color:"black"}}><h3><i class="bi bi-twitter-x"></i></h3></a></button>
+                    <button className="symbolBtn"><h3><i className="bi bi-whatsapp"></i></h3></button>
+                    <button className="symbolBtn"><a href="https://www.instagram.com/accounts/login/" style={{color:"black"}}><h3><i className="bi bi-instagram"></i></h3></a></button>
+                    <button className="symbolBtn"><a href="https://www.linkedin.com/login" style={{color:"black"}}><h3><i className="bi bi-linkedin"></i></h3></a></button>
+                    <button className="symbolBtn"><a href="https://x.com/i/flow/login" style={{color:"black"}}><h3><i className="bi bi-twitter-x"></i></h3></a></button>
                 </div>
                 
             </div>
@@ -160,6 +235,7 @@ function Main(params) {
             <p style={{fontSize:"0.8em"}}>© 2025 techstore001.netlify.app. All Rights Reserved.</p>
         </div>
     </div>
+            )}
     </>
  )   
 }

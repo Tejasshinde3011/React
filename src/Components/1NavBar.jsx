@@ -7,6 +7,8 @@ function NavBar(props){
         let {cnt} = props;
         let {user, loginStatus} = props;
         console.log(user);
+        console.log(loginStatus);
+        
         
 
      function handleOpenLogIn() {
@@ -49,8 +51,9 @@ function NavBar(props){
         <div className="row text-end mx-1">
             {loginStatus == "success" && (
                 <div>
+                  <span style={{fontSize:"0.7em"}}>Welcome{" "}</span>
                   <a href="#" style={{color:"black", fontWeight:"600"}}>{user.name.toUpperCase()}</a>{" "}
-                  <span style={{fontSize:"1.3em"}}><i class="bi bi-person-fill"></i>{" "}</span>
+                  <span style={{fontSize:"1.3em"}}><i className="bi bi-person-fill"></i>{" "}</span>
                 </div>
             )}   
         </div>
@@ -84,7 +87,7 @@ function NavBar(props){
                <div className="row">
                 <div className=" col-md-6 col-lg-4 ">
                   <button className="logobtn" >
-                  <h3><i class="bi bi-heart-fill" style={{color:"red"}}></i></h3>
+                  <h3><i className="bi bi-heart-fill" style={{color:"red"}}></i></h3>
                   </button>
                 </div>
                 {user ? (<div className=" text-end col-md-4 col-lg-4 ">

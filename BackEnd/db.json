@@ -22,13 +22,6 @@
       "role": "user"
     },
     {
-      "id": "be73",
-      "name": "Tejas",
-      "email": "tejas@gmail.com",
-      "password": "1234",
-      "role": "admin"
-    },
-    {
       "id": "2c37",
       "name": "swarup",
       "email": "swarup@gmail.com",
@@ -242,6 +235,226 @@
       "name": "vivo f16",
       "image": "Logo.jpg",
       "mrp": "119999",
+      "discount": "5",
+      "inStock": true,
+      "qty": "0",
+      "type": "Mobile"
+    },
+    {
+      "id": "ee4f",
+      "name": "Samsung S24 Fe",
+      "image": "Logo.jpg",
+      "mrp": "45000",
+      "discount": "10",
+      "inStock": true,
+      "qty": "0",
+      "type": "Mobile"
+    },
+    {
+      "id": "0f12",
+      "name": "Samsung s24 Ultra ",
+      "image": "Logo.jpg",
+      "mrp": "135000",
+      "discount": "15",
+      "inStock": true,
+      "qty": "0",
+      "type": "Mobile"
+    },
+    {
+      "id": "d249",
+      "name": "Samsung S24",
+      "image": "Logo.jpg",
+      "mrp": "52999",
+      "discount": "10",
+      "inStock": true,
+      "qty": "0",
+      "type": "Mobile"
+    },
+    {
+      "id": "302c",
+      "name": "Sony ULT 3300JX",
+      "image": "Logo.jpg",
+      "mrp": "26999",
+      "discount": "0",
+      "inStock": false,
+      "qty": "0",
+      "type": "Headphone"
+    },
+    {
+      "id": "7c3b",
+      "name": "Apple IPhone 16 Pro",
+      "image": "Logo.jpg",
+      "mrp": "119999",
+      "discount": "8",
+      "inStock": true,
+      "qty": "0",
+      "type": "Mobile"
+    },
+    {
+      "id": "2a99",
+      "name": "HP Pavilion 360 U364873",
+      "image": "Logo.jpg",
+      "mrp": "125000",
+      "discount": "20",
+      "inStock": true,
+      "qty": "0",
+      "type": "Laptop"
+    },
+    {
+      "id": "427d",
+      "name": "HP Pavilion 360 U364873",
+      "image": "Logo.jpg",
+      "mrp": "125000",
+      "discount": "20",
+      "inStock": true,
+      "qty": "0",
+      "type": "Laptop"
+    },
+    {
+      "id": "954f",
+      "name": "Samsung S23 Plus",
+      "image": "Logo.jpg",
+      "mrp": "40000",
+      "discount": "15",
+      "inStock": true,
+      "qty": "0",
+      "type": "Mobile"
+    },
+    {
+      "id": "a6de",
+      "name": "OnePlus 10T 256GB",
+      "image": "Logo.jpg",
+      "mrp": "30000",
+      "discount": "5",
+      "inStock": true,
+      "qty": "0",
+      "type": "Mobile"
+    },
+    {
+      "id": "3bec",
+      "name": "JBL Go 3 Wireless Speaker",
+      "image": "Logo.jpg",
+      "mrp": "2500",
+      "discount": "5",
+      "inStock": false,
+      "qty": "0",
+      "type": "Speaker"
+    },
+    {
+      "id": "349a",
+      "name": "Marshall Monitor 3",
+      "image": "Logo.jpg",
+      "mrp": "29000",
+      "discount": "0",
+      "inStock": false,
+      "qty": "0",
+      "type": "Headphone"
+    },
+    {
+      "id": "a094",
+      "name": "Sony MDR-432 Wired",
+      "image": "Logo.jpg",
+      "mrp": "999",
+      "discount": "10",
+      "inStock": true,
+      "qty": "0",
+      "type": "Headphone"
+    },
+    {
+      "id": "7f42",
+      "name": "Apple MacBook M3",
+      "image": "Logo.jpg",
+      "mrp": "127999",
+      "discount": "7",
+      "inStock": true,
+      "qty": "0",
+      "type": "Laptop"
+    },
+    {
+      "id": "47d1",
+      "name": "Asus Vivobook 15 OLED",
+      "image": "Logo.jpg",
+      "mrp": "158999",
+      "discount": "50",
+      "inStock": true,
+      "qty": "0",
+      "type": "Laptop"
+    },
+    {
+      "id": "4774",
+      "name": "Bose SoundLink Flex",
+      "image": "Logo.jpg",
+      "mrp": "14999",
+      "discount": "5",
+      "inStock": true,
+      "qty": "0",
+      "type": "Speaker"
+    },
+    {
+      "id": "ea71",
+      "name": "Samsung S23 Ultra",
+      "image": "Logo.jpg",
+      "mrp": "79999",
+      "discount": "10",
+      "inStock": true,
+      "qty": "0",
+      "type": "Mobile"
+    },
+    {
+      "id": "06d6",
+      "name": "Apple iPhone 15 Pro Max",
+      "image": "Logo.jpg",
+      "mrp": "99999",
+      "discount": "22",
+      "inStock": true,
+      "qty": "0",
+      "type": "Mobile"
+    },
+    {
+      "id": "2cbd",
+      "name": "Harman Kardon Onyx",
+      "image": "Logo.jpg",
+      "mrp": "37799",
+      "discount": "5",
+      "inStock": true,
+      "qty": "0",
+      "type": "Speaker"
+    },
+    {
+      "id": "bbe9",
+      "name": "Boat Rockerz 450X",
+      "image": "Logo.jpg",
+      "mrp": "1599",
+      "discount": "10",
+      "inStock": false,
+      "qty": "0",
+      "type": "Headphone"
+    },
+    {
+      "id": "9674",
+      "name": "Samsung M51 5G",
+      "image": "Logo.jpg",
+      "mrp": "26889",
+      "discount": "0",
+      "inStock": true,
+      "qty": "0",
+      "type": "Mobile"
+    },
+    {
+      "id": "18c4",
+      "name": "Apple iphone 13 pro",
+      "image": "Logo.jpg",
+      "mrp": "64999",
+      "discount": "7",
+      "inStock": false,
+      "qty": "0",
+      "type": "Mobile"
+    },
+    {
+      "id": "50f0",
+      "name": "Nothing 2",
+      "image": "Logo.jpg",
+      "mrp": "35000",
       "discount": "5",
       "inStock": true,
       "qty": "0",

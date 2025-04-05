@@ -265,3 +265,13 @@ transition-duration: 3s;
 .symbolBtn:hover {
   transform: scale(1.05);
 }
+
+.bill{
+  background-color: rgb(245, 245, 245);
+  border-radius: 3px;
+}
+
+.whatsappbill{
+  background-color: #11892f;
+  color: white;
+}

@@ -25,7 +25,7 @@ function Card(props){
                 <div className="row">
                 <div className="col-12 col-md-6 col-lg-2 offset-md-6 offset-lg-10">
                      <button className="logobtn heartBtn myborder" >
-                      <h5><i class="bi bi-heart" style={{color:"red"}}></i></h5>
+                      <h5><i className="bi bi-heart" style={{color:"red"}}></i></h5>
                      </button>
                   </div>
                 </div>
